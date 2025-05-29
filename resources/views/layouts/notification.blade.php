@@ -1,76 +1,46 @@
-{{-- @if (auth()->user()->hasRole('admin')) --}}
-    <li class="nav-item topbar-icon dropdown hidden-caret">
-        <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="notifDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-        >
-            <i class="fa fa-bell"></i>
-            @php
-                $unreadNotifications = isset($notifications) ? $notifications->whereNull('read_at') : collect();
-                $notificationCount = $unreadNotifications->count();
-            @endphp
-            <i class="fa fa-bell"></i>
-            @if($notificationCount > 0)
-                <span class="notification">{{ $notificationCount }}</span>
+@auth
+    @php
+        $unreadNotificationsCount = Auth::user()->unreadNotifications->count();
+        $recentNotifications = Auth::user()->notifications()->latest()->take(5)->get();
+    @endphp
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-bell"></i>
+            @if($unreadNotificationsCount > 0)
+                <span class="badge badge-danger navbar-badge">{{ $unreadNotificationsCount }}</span>
             @endif
         </a>
-        <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-            <li>
-                <div class="dropdown-title">
-                    Vous avez {{ $notificationCount }} nouvelle{{ $notificationCount > 1 ? 's' : '' }} notification{{ $notificationCount > 1 ? 's' : '' }} non lue{{ $notificationCount > 1 ? 's' : '' }}
-                </div>
-            </li>
-            <li>
-                <div class="notif-scroll scrollbar-outer">
-                    <div class="notif-center">
-                        @if(isset($notifications) && $notifications->isNotEmpty())
-                            @forelse ($notifications->take(5) as $notification) {{-- Show latest 5 --}}
-                                @php
-                                    $data = json_decode($notification->data);
-                                    // Déterminer une icône basée sur un type de notification hypothétique
-                                    $iconClass = 'fa-bell'; // Icône par défaut
-                                    if(isset($data->type)) {
-                                        switch ($data->type) {
-                                            case 'stock_alert': $iconClass = 'fa-cubes text-warning'; break;
-                                            case 'new_order': $iconClass = 'fa-shopping-cart text-success'; break;
-                                            case 'user_mention': $iconClass = 'fa-user-tag text-info'; break;
-                                            default: $iconClass = 'fa-info-circle text-primary'; break;
-                                        }
-                                    }
-                                @endphp
-                                <a href="{{ $data->link ?? '#' }}" class="d-flex align-items-center py-2 px-3 {{ is_null($notification->read_at) ? 'fw-bold' : '' }}">
-                                    <div class="notif-icon notif-info me-3"> {{-- Added me-3 for spacing --}}
-                                        <i class="fa {{ $iconClass }}"></i>
-                                    </div>
-                                    <div class="notif-content">
-                                        <span class="block" style="white-space: normal; line-height: 1.3;">{{ Str::limit($data->message ?? 'Notification sans message', 70) }}</span>
-                                        <span class="time text-muted" style="font-size: 0.75rem;">{{ $notification->created_at->diffForHumans() }}</span>
-                                    </div>
-                                </a>
-                            @empty
-                                <div class="notif-content text-center py-3">
-                                    <span class="block">Aucune nouvelle notification.</span>
-                                </div>
-                            @endforelse
-                        @else
-                            <div class="notif-content text-center py-3">
-                                <span class="block">Aucune notification disponible.</span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </li>
-
-            <li>
-                <a class="see-all" href="#">
-                    Voir toutes les notifications<i class="fa fa-angle-right"></i>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" aria-labelledby="notificationDropdown">
+            @if($recentNotifications->isEmpty())
+                <a href="#" class="dropdown-item text-center">
+                    <p class="text-muted text-sm mb-0">Aucune nouvelle notification</p>
                 </a>
-            </li>
-        </ul>
+            @else
+                @foreach($recentNotifications as $notification)
+                    <a href="{{ route('notifications.show', $notification->id) }}" class="dropdown-item">
+                        <div class="media">
+                            {{-- Example: Icon for stock low notification --}}
+                            @if(isset($notification->data['article_id']))
+                                <i class="fas fa-boxes mr-2 mt-1"></i>
+                            @else
+                                <i class="fas fa-info-circle mr-2 mt-1"></i> {{-- Default icon --}}
+                            @endif
+                            <div class="media-body">
+                                <h3 class="dropdown-item-title" style="font-size: 0.9rem; white-space: normal;">
+                                    {{ Str::limit($notification->data['message'], 60) }}
+                                    @if(!$notification->read_at)
+                                        <span class="float-right text-xs text-danger"><i class="fas fa-circle" style="font-size: 0.5rem;"></i></span>
+                                    @endif
+                                </h3>
+                                <p class="text-xs text-muted"><i class="far fa-clock mr-1"></i> {{ $notification->created_at->diffForHumans(null, true, true) }}</p>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider my-0"></div>
+                @endforeach
+            @endif
+            <a href="{{ route('notifications.index') }}" class="dropdown-item dropdown-footer text-center">Voir toutes les notifications</a>
+        </div>
     </li>
-{{-- @endif --}}
+@endauth

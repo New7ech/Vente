@@ -117,10 +117,9 @@
 
             {{-- @if (auth()->user()->hasRole('admin')) --}}
               <li class="nav-item">
-                <a href="#"> {{-- Assuming a route for statistics, e.g., route('statistiques.index') --}}
-                  <i class="fas fa-chart-line"></i> {{-- Changed icon --}}
+                <a href="{{ route('statistiques.index') }}">
+                  <i class="fas fa-chart-line"></i>
                     <p>Statistiques</p>
-                    {{-- <span class="badge badge-secondary">1</span> --}} {{-- Badge can be dynamic if needed --}}
                 </a>
               </li>
 

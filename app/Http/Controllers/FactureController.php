@@ -250,4 +250,41 @@ class FactureController extends Controller
         $facture->delete();
         return redirect()->route('factures.index')->with('success', 'Facture supprimée avec succès.');
     }
+
+    public function genererPdf(Facture $facture)
+    {
+        // Ensure related data is loaded if necessary, e.g., articles on the invoice
+        $facture->load('articles'); // Or whatever relation links facture to its items
+
+        // Prepare details similar to how it might be done in the 'store' or 'show' method if needed by the PDF view
+        // For example, if 'details' array was used in the original PDF generation:
+        $details = [];
+        $montantHTTotal = 0;
+        foreach ($facture->articles as $articlePivot) {
+            // Assuming 'prix_unitaire' and 'quantite' are stored in the pivot table 'article_facture'
+            $prixUnitaire = $articlePivot->pivot->prix_unitaire;
+            $quantity = $articlePivot->pivot->quantite;
+            $ligneHT = $prixUnitaire * $quantity;
+
+            $details[] = [
+                'article' => $articlePivot, // The Article model itself
+                'quantity' => $quantity,
+                'prix_unitaire' => $prixUnitaire,
+                'montant_ht' => $ligneHT,
+            ];
+            $montantHTTotal += $ligneHT;
+        }
+
+        // The PDF view might also expect calculated totals directly from the $facture model
+        // if they are stored on the factures table (e.g., $facture->montant_ht, $facture->montant_ttc)
+        // Adjust the data passed to the view based on what `factures.pdf.blade.php` expects.
+
+        $pdf = Pdf::loadView('factures.pdf', [
+            'facture' => $facture,
+            'details' => $details, // Pass this if your PDF view iterates over 'details'
+                                // If not, and it uses $facture->articles directly, ensure that relationship is correctly structured
+        ]);
+
+        return $pdf->download("Facture_{$facture->numero ?? $facture->id}.pdf");
+    }
 }
