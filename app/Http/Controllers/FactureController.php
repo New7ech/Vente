@@ -25,7 +25,7 @@ class FactureController extends Controller
                   ->orWhere('statut_paiement', 'like', "%{$search}%");
         }
 
-        $factures = $query->get();
+        $factures = $query->paginate(15);
 
         return view('factures.index', compact('factures'));
     }
