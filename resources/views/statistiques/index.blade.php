@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { 
+                    y: {
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) { return value + ' FCFA'; }
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { 
+                    y: {
                         beginAtZero: true,
                         ticks: {
                             stepSize: 1 // Ensure integer steps for quantity
