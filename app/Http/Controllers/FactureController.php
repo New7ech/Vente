@@ -285,6 +285,6 @@ class FactureController extends Controller
                                 // If not, and it uses $facture->articles directly, ensure that relationship is correctly structured
         ]);
 
-        return $pdf->download("Facture_" . ($facture->numero ? $facture->numero : $facture->id) . ".pdf");
+        return $pdf->download("Facture_{$facture->numero ?? $facture->id}.pdf");
     }
 }

@@ -33,7 +33,9 @@
                     <div class="card">
                         <div class="card-header">Articles par Catégorie</div>
                         <div class="card-body">
-                            <canvas id="articlesPerCategoryChart"></canvas>
+                            <div style="position: relative; height:350px; width:100%;">
+                                <canvas id="articlesPerCategoryChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -41,7 +43,9 @@
                     <div class="card">
                         <div class="card-header">Tendances des Ventes (30 derniers jours)</div>
                         <div class="card-body">
-                            <canvas id="salesTrendChart"></canvas>
+                            <div style="position: relative; height:350px; width:100%;">
+                                <canvas id="salesTrendChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -52,7 +56,9 @@
                     <div class="card">
                         <div class="card-header">Top 5 Meilleurs Articles Vendus (par quantité, 30j)</div>
                         <div class="card-body">
-                            <canvas id="bestSellingArticlesChart"></canvas>
+                            <div style="position: relative; height:350px; width:100%;">
+                                <canvas id="bestSellingArticlesChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
