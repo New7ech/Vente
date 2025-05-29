@@ -1,10 +1,21 @@
-<footer class="bg-dark text-white py-4" style="background-color: #05386a;">
-    <div class="container text-center">
-        <p>&copy; 2025 Logiciel de Gestionn de Stock. Tous droits réservés.</p>
-        <div class="social-links">
-            <a href="#" class="mx-2">Facebook</a>
-            <a href="#" class="mx-2">Twitter</a>
-            <a href="#" class="mx-2">Instagram</a>
+<footer class="footer">
+    <div class="container-fluid">
+        <nav class="pull-left">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> <!-- Placeholder for a help/about link -->
+                        Aide
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> <!-- Placeholder for a licenses link -->
+                        Licences
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="copyright ms-auto">
+            &copy; {{ date('Y') }}, fait avec <i class="fa fa-heart heart text-danger"></i> par <a href="https://www.themekita.com" target="_blank">ThemeKita</a> &amp; adapté par VotreNom/Entreprise
         </div>
     </div>
 </footer>

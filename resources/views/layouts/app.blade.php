@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Shopping</title>
+    <title>{{ config('app.name', 'Gestion de Stock et Facturation') }} - @yield('title', 'Tableau de bord')</title>
     <meta
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
       name="viewport"
     />
     <link
       rel="icon"
-      href="{{ asset('assets/img/kaiadmin/logo png') }}"
+      href="{{ asset('assets/img/kaiadmin/favicon.ico') }}" <!-- Assuming a more standard favicon name -->
       type="image/x-icon"
     />
     <!-- Fonts and icons -->
@@ -105,12 +105,12 @@
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo.js') }}"></script>
-    <script src="{{ asset('assets/js/demo.js') }}"></script>
+    <script src="{{ asset('assets/js/demo.js') }}"></script> <!-- This might be removable in production -->
 
     <script>
       // Example starter JavaScript for disabling form submissions if there are invalid fields
-
-      //le scripte qui a informe que les donnes ne son pas renseigner avec des croit rouge
+    (() => { // Keep this for Bootstrap form validation
+      // This script enables Bootstrap custom validation styling.
     (() => {
       'use strict'
 

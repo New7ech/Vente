@@ -22,7 +22,13 @@ class UpdateArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'prix' => 'required|numeric|min:0',
+            'quantite' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'fournisseur_id' => 'required|exists:fournisseurs,id',
+            'emplacement_id' => 'required|exists:emplacements,id',
         ];
     }
 }

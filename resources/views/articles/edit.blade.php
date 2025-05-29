@@ -22,7 +22,7 @@
                 @method('PUT')
 
                 <div class="mb-3">
-                    <label for="name" class="form-label">name de l'article</label>
+                    <label for="name" class="form-label">Nom de l'article</label>
                     <input type="text" name="name" class="form-control" required value="{{ old('name', $article->name) }}">
                 </div>
 
@@ -31,14 +31,19 @@
                     <textarea name="description" class="form-control">{{ old('description', $article->description) }}</textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label for="prix" class="form-label">Prix (€)</label>
-                    <input type="number" step="0.01" name="prix" class="form-control" required value="{{ old('prix', $article->prix) }}">
-                </div>
-
-                <div class="mb-3">
-                    <label for="quantite" class="form-label">Quantité</label>
-                    <input type="number" name="quantite" class="form-control" required value="{{ old('quantite', $article->quantite) }}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="prix" class="form-label">Prix (FCFA)</label>
+                            <input type="number" step="0.01" name="prix" id="prix" class="form-control" required value="{{ old('prix', $article->prix) }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="quantite" class="form-label">Quantité</label>
+                            <input type="number" name="quantite" id="quantite" class="form-control" required value="{{ old('quantite', $article->quantite) }}">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -77,7 +82,14 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Mettre à jour
+                    </button>
+                    <a href="{{ route('articles.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-list"></i> Retour à la liste
+                    </a>
+                </div>
             </form>
         </div>
     </div>

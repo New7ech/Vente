@@ -2,7 +2,7 @@
     <a href="{{ url('/') }}" class="logo">
       <img
         src="{{ asset('assets/img/kaiadmin/logocommerce.PNG') }}"
-        alt="Image en logo"
+        alt="Logo de l'application" {{-- Translated alt text --}}
         class="navbar-brand"
         height="68"
       />

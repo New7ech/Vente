@@ -1,37 +1,49 @@
-@extends('layouts/app')
+@extends('layouts.app')
+
 @section('contenus')
-
-
-    <div class="container mt-5">
-        <h1>Permissions</h1>
-
-        <a href="{{ route('permissions.create') }}" class="btn btn-primary mb-3">Create Permission</a>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($permissions as $permission)
-                    <tr>
-                        <td>{{ $permission->name }}</td>
-                        <td>
-                            <a href="{{ route('permissions.edit', $permission) }}" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="{{ route('permissions.destroy', $permission) }}" method="POST" style="display: inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this permission?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title mb-0">Liste des Permissions</h1>
+        </div>
+        <div class="card-body">
+            <a href="{{ route('permissions.create') }}" class="btn btn-primary mb-3">
+                <i class="fas fa-plus"></i> Créer une permission
+            </a>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nom de la Permission</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($permissions as $permission)
+                            <tr>
+                                <td>{{ $permission->name }}</td>
+                                <td class="text-end">
+                                    <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette permission ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="2" class="text-center">Aucune permission trouvée.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
+</div>
 @endsection
