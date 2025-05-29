@@ -16,22 +16,25 @@ class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\View\View
     {
         $search = $request->input('search');
 
-        $articles = Article::when($search, function ($query, $search) {
-            return $query->search($search);
-        })->get();
+        $articles = Article::when($search, fn($query, $term) => $query->searchByText($term))->latest()->get();
 
         return view('articles.index', compact('articles'));
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         $categories = Categorie::all();
         $fournisseurs = Fournisseur::all();
@@ -42,41 +45,36 @@ class ArticleController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreArticleRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreArticleRequest $request)
+    public function store(StoreArticleRequest $request): \Illuminate\Http\RedirectResponse
     {
-            // Validation des données
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
-            'quantite' => 'required|integer|min:0',
-            'category_id' => 'nullable|exists:categories,id',
-            'fournisseur_id' => 'nullable|exists:fournisseurs,id',
-            'emplacement_id' => 'nullable|exists:emplacements,id',
-        ]);
-
         // Ajout de l'utilisateur connecté comme créateur
-        $validated['created_by'] = auth()->id();
-
-        // Création de l'article
-        $article = Article::create($validated);
+        $article = Article::create($request->validated() + ['created_by' => auth()->id()]);
 
         return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
     }
 
     /**
      * Display the specified resource.
+     *
+     * @param  \App\Models\Article  $article
+     * @return \Illuminate\View\View
      */
-    public function show(Article $article)
+    public function show(Article $article): \Illuminate\View\View
     {
         return view('articles.show', compact('article'));
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Article  $article
+     * @return \Illuminate\View\View
      */
-    public function edit(Article $article)
+    public function edit(Article $article): \Illuminate\View\View
     {
         $categories = Categorie::all();
         $fournisseurs = Fournisseur::all();
@@ -86,28 +84,25 @@ class ArticleController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateArticleRequest  $request
+     * @param  \App\Models\Article  $article
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateArticleRequest $request, Article $article)
+    public function update(UpdateArticleRequest $request, Article $article): \Illuminate\Http\RedirectResponse
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'nullable',
-            'prix' => 'required|numeric',
-            'quantite' => 'required|integer',
-            'category_id' => 'required|exists:categories,id',
-            'fournisseur_id' => 'required|exists:fournisseurs,id',
-            'emplacement_id' => 'required|exists:emplacements,id',
-        ]);
-
-        $article->update($request->all());
+        $article->update($request->validated());
 
         return redirect()->route('articles.index')->with('success', 'Article mis à jour avec succès.');
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Article  $article
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article): \Illuminate\Http\RedirectResponse
     {
         $article->delete();
 

@@ -13,8 +13,25 @@ class Article extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'articles';
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
     protected $primaryKey = 'id';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'description',
@@ -26,53 +43,69 @@ class Article extends Model
         'created_by'
     ];
 
-    public function factures()
+    /**
+     * Get the factures associated with the article.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function factures(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Facture::class, 'article_facture')
                     ->withPivot('quantite', 'prix_unitaire')
                     ->withTimestamps();
     }
 
-    public function scopeSearch($query, $search)
+    /**
+     * Scope a query to only include articles matching a search term in name or description.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $searchTerm
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchByText(\Illuminate\Database\Eloquent\Builder $query, string $searchTerm): \Illuminate\Database\Eloquent\Builder
     {
-        return $query->where('name', 'like', "%{$search}%")
-            ->orWhere('description', 'like', "%{$search}%")
-            ->orWhere('prix', 'like', "%{$search}%")
-            ->orWhere('quantite', 'like', "%{$search}%")
-            ->orWhere('category_id', 'like', "%{$search}%")
-            ->orWhere('fournisseur_id', 'like', "%{$search}%")
-            ->orWhere('emplacement_id', 'like', "%{$search}%");
-    }
-
-    public function scopeFilter($query, array $filters)
-    {
-        $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where('name', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%")
-                ->orWhere('prix', 'like', "%{$search}%")
-                ->orWhere('quantite', 'like', "%{$search}%")
-                ->orWhere('category_id', 'like', "%{$search}%")
-                ->orWhere('fournisseur_id', 'like', "%{$search}%")
-                ->orWhere('emplacement_id', 'like', "%{$search}%");
+        return $query->where(function($q) use ($searchTerm) {
+            $q->where('name', 'like', "%{$searchTerm}%")
+              ->orWhere('description', 'like', "%{$searchTerm}%");
         });
     }
 
-    public function categorie()
+    /**
+     * Get the category that owns the article.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function categorie(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Categorie::class, 'category_id');
     }
 
-    public function fournisseur()
+    /**
+     * Get the fournisseur that owns the article.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function fournisseur(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Fournisseur::class, 'fournisseur_id');
     }
 
-    public function emplacement()
+    /**
+     * Get the emplacement where the article is located.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function emplacement(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Emplacement::class, 'emplacement_id');
     }
 
-    public function user()
+    /**
+     * Get the user who created the article.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
