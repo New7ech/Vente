@@ -1,25 +1,42 @@
 @extends('layouts/app')
 @section('contenus')
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">Ajouter un emplacement</h1>
+        </div>
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
+            <form action="{{ route('emplacements.store') }}" method="POST">
+                @csrf
 
-    <div class="container mt-5">
-        <h1>Ajouter une d'emplacement de produit</h1>
-
-        <form action="{{ route('emplacements.store') }}" method="POST">
-            @csrf
-
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" name="description" id="description" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nom de l'emplacement</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Créer
+                    </button>
+                    <a href="{{ route('emplacements.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-list"></i> Retour à la liste
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
+</div>
 @endsection

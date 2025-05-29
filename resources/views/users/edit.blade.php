@@ -1,80 +1,122 @@
-@extends('layouts/app')
+@extends('layouts.app')
+
 @section('contenus')
-
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-    </style>
-
-    <div class="container mt-5">
-        <h1 class="mb-4">Metre à jour l utilisateur</h1>
-
-        <form action="{{ route('users.update', $user) }}" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="password_confirmation">Confirm Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
-            </div>
-            @if (auth()->user()->hasRole('admin'))
-                <div class="form-group">
-                    <label for="compagnie_id">Compagnie:</label>
-                    <select id="compagnie_id" name="compagnie_id" class="form-control">
-                        <option value="">-- Aucune --</option> <!-- Option pour aucune compagnie -->
-                        @foreach ($compagnies as $compagnie)
-                            <option value="{{ $compagnie->id }}"
-                                {{ (old('compagnie_id', $user->compagnie_id) == $compagnie->id) ? 'selected' : '' }}>
-                                {{ $compagnie->denomination }}
-                            </option>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">Mettre à jour l'utilisateur</h1>
+        </div>
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
                         @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Assign Roles</label>
-                    @foreach ($roles as $role)
-                        <div class="form-check">
-                            <input type="checkbox" name="roles[]" value="{{ $role->name }}" id="role-{{ $role->name }}" class="form-check-input" {{ $user->hasRole($role) ? 'checked' : '' }}>
-                            <label for="role-{{ $role->id }}" class="form-check-label">{{ $role->name }}</label>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="form-group">
-                    <label>Supprmier le Role</label>
-                    @foreach ($user->getRoleNames() as $role)
-                        <div class="form-check">
-                            <input type="checkbox" name="remove_roles[]" value="{{ $role }}" id="remove-role-{{ $role }}" class="form-check-input">
-                            <label for="remove-role-{{ $role }}" class="form-check-label">{{ $role }}</label>
-                        </div>
-                    @endforeach
+                    </ul>
                 </div>
             @endif
 
-            <button type="submit" class="btn btn-primary">Enregistre</button>
-        </form>
+            <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-        {{-- <a href="{{ route('users.index') }}" class="btn btn-secondary mt-3">Back to Users</a> --}}
+                <h5 class="mb-3">Informations de base</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label required">Nom complet</label>
+                            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}" required pattern=".{3,50}" title="3 à 50 caractères">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="email" class="form-label required">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}" required placeholder="exemple@domain.com">
+                        </div>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Nouveau mot de passe</label>
+                            <input type="password" name="password" id="password" class="form-control">
+                            <div class="form-text">Laissez vide si vous ne souhaitez pas changer le mot de passe.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Confirmation du nouveau mot de passe</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                     <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Téléphone</label>
+                            <input type="tel" name="phone" id="phone" class="form-control" value="{{ old('phone', $user->phone) }}" pattern="[+0-9\s]{8,20}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="birthdate" class="form-label">Date de naissance</label>
+                            <input type="date" name="birthdate" id="birthdate" class="form-control" value="{{ old('birthdate', $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->format('Y-m-d') : '') }}">
+                        </div>
+                    </div>
+                </div>
+                 <div class="mb-3">
+                    <label for="address" class="form-label">Adresse complète</label>
+                    <textarea name="address" id="address" class="form-control" rows="2">{{ old('address', $user->address) }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="photo" class="form-label">Photo de profil</label>
+                    <input type="file" name="photo" id="photo" class="form-control" accept="image/jpeg,image/png,image/webp">
+                    <div class="form-text">Laissez vide si vous ne souhaitez pas changer la photo. Formats acceptés: JPG, PNG, WEBP (max 2MB)</div>
+                    @if($user->photo)
+                        <img src="{{ asset('storage/' . $user->photo) }}" alt="Photo de profil actuelle" class="img-thumbnail mt-2" style="max-height: 100px;">
+                    @endif
+                </div>
+
+                @if (auth()->user()->hasRole('admin') || auth()->user()->id == $user->id) // Admin or self-edit
+                <hr>
+                <h5 class="mb-3">Assignation de Compagnie et Rôles</h5>
+                @if (auth()->user()->hasRole('admin'))
+                    <div class="mb-3">
+                        <label for="compagnie_id" class="form-label">Compagnie</label>
+                        <select id="compagnie_id" name="compagnie_id" class="form-select">
+                            <option value="">-- Aucune --</option>
+                            @foreach ($compagnies as $compagnie)
+                                <option value="{{ $compagnie->id }}" {{ (old('compagnie_id', $user->compagnie_id) == $compagnie->id) ? 'selected' : '' }}>
+                                    {{ $compagnie->denomination }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Rôles</label>
+                        @foreach ($roles as $role)
+                            <div class="form-check">
+                                <input type="checkbox" name="roles[]" value="{{ $role->name }}" id="role-{{ $role->id }}" class="form-check-input" {{ $user->hasRole($role->name) ? 'checked' : '' }}>
+                                <label for="role-{{ $role->id }}" class="form-check-label">{{ $role->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+                @endif
+
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Mettre à jour
+                    </button>
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
+</div>
 @endsection

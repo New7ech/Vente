@@ -71,9 +71,13 @@
                 </div>
 
                 <div class="mb-3">
-                    <button type="button" class="btn btn-secondary" id="addArticleBtn">Ajouter un article</button>
+                    <button type="button" class="btn btn-success" id="addArticleBtn">
+                        <i class="fas fa-plus"></i> Ajouter un article
+                    </button>
                 </div>
 
+                <hr>
+                <h5 class="mb-3">Récapitulatif</h5>
                 <div class="row bg-light p-3 rounded mb-4">
                     <div class="col-md-4">
                         <p class="mb-0">Montant HT : <strong><span id="montantHT">0.00</span> FCFA</strong></p>
@@ -104,9 +108,14 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
-                    Générer la facture
-                </button>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                        <i class="fas fa-file-invoice"></i> Générer la facture
+                    </button>
+                    <a href="{{ route('factures.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-list"></i> Retour à la liste
+                    </a>
+                </div>
             </form>
         </div>
     </div>

@@ -14,7 +14,7 @@ class ArticleManagementTest extends TestCase
 {
     use RefreshDatabase;
 
-    // Helper method to create and authenticate a user
+    // Méthode utilitaire pour créer et authentifier un utilisateur
     protected function authenticateUser()
     {
         $user = User::factory()->create();
@@ -22,10 +22,10 @@ class ArticleManagementTest extends TestCase
         return $user;
     }
 
-    // Test methods will be added here
+    // Les méthodes de test seront ajoutées ici
 
     /** @test */
-    public function test_can_list_articles()
+    public function test_peut_lister_articles()
     {
         $this->authenticateUser();
         Article::factory()->create(['name' => 'Article Alpha']);
@@ -39,7 +39,7 @@ class ArticleManagementTest extends TestCase
     }
 
     /** @test */
-    public function test_authenticated_user_can_create_article()
+    public function test_utilisateur_authentifie_peut_creer_article()
     {
         $user = $this->authenticateUser();
 
@@ -74,7 +74,10 @@ class ArticleManagementTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * Vérifie que la création d'un article échoue si le nom n'est pas fourni.
+     * @test
+     */
     public function test_article_creation_requires_name()
     {
         $this->authenticateUser();
@@ -92,7 +95,7 @@ class ArticleManagementTest extends TestCase
     }
 
     /** @test */
-    public function test_can_show_article()
+    public function test_peut_afficher_article()
     {
         $this->authenticateUser();
         $article = Article::factory()->create([
@@ -108,7 +111,7 @@ class ArticleManagementTest extends TestCase
     }
 
     /** @test */
-    public function test_authenticated_user_can_update_article()
+    public function test_utilisateur_authentifie_peut_modifier_article()
     {
         $user = $this->authenticateUser();
         $category = Categorie::factory()->create();
@@ -144,7 +147,7 @@ class ArticleManagementTest extends TestCase
     }
 
     /** @test */
-    public function test_authenticated_user_can_delete_article()
+    public function test_utilisateur_authentifie_peut_supprimer_article()
     {
         $user = $this->authenticateUser();
         $article = Article::factory()->create(['created_by' => $user->id]);

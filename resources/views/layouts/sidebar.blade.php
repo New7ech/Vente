@@ -34,27 +34,27 @@
                     <div class="collapse" id="demande">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="{{ url('articles/create') }}">
+                            <a href="{{ route('articles.create') }}">
                                 <i class="fas fa-cart-plus"></i>
-                            Ajoute article</span>
+                                <p>Ajouter un article</p>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('articles') }}">
+                            <a href="{{ route('articles.index') }}">
                                 <i class="fas fa-edit"></i>
-                            Gere articles</span>
+                                <p>Gérer les articles</p>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('categories') }}">
-                                <i class="fas fa-door-open"></i>
-                            Categories</span>
+                            <a href="{{ route('categories.index') }}">
+                                <i class="fas fa-tags"></i> {{-- Changed icon --}}
+                                <p>Catégories</p>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('emplacements') }}">
-                                <i class="fas fa-layer-group"></i>
-                            Emplacements</span>
+                            <a href="{{ route('emplacements.index') }}">
+                                <i class="fas fa-map-marker-alt"></i> {{-- Changed icon --}}
+                                <p>Emplacements</p>
                             </a>
                         </li>
 
@@ -71,15 +71,15 @@
                     <div class="collapse" id="fournisseur">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="{{ url('fournisseurs/create') }}">
-                                <i class="fas fa-plane-departure"></i>
-                            Ajoute un fournisseur</span>
+                            <a href="{{ route('fournisseurs.create') }}">
+                                <i class="fas fa-user-plus"></i> {{-- Changed icon --}}
+                                <p>Ajouter un fournisseur</p>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('fournisseurs') }}">
-                                <i class="fas fa-toolbox"></i>
-                            Gere fournisseurs</span>
+                            <a href="{{ route('fournisseurs.index') }}">
+                                <i class="fas fa-users-cog"></i> {{-- Changed icon --}}
+                                <p>Gérer les fournisseurs</p>
                             </a>
                         </li>
 
@@ -96,15 +96,15 @@
                     <div class="collapse" id="facture">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="{{ url('factures/create') }}">
-                                <i class="fas fa-sticky-note"></i>
-                            Cree une facture</span>
+                            <a href="{{ route('factures.create') }}">
+                                <i class="fas fa-file-invoice-dollar"></i> {{-- Changed icon --}}
+                                <p>Créer une facture</p>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('factures') }}">
-                                <i class="fas fa-server"></i>
-                            Gere facture</span>
+                            <a href="{{ route('factures.index') }}">
+                                <i class="fas fa-folder-open"></i> {{-- Changed icon --}}
+                                <p>Gérer les factures</p>
                             </a>
                         </li>
 
@@ -117,82 +117,86 @@
 
             {{-- @if (auth()->user()->hasRole('admin')) --}}
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#statistique">
-                  <i class="fas fa-chart-pie"></i>
-                    <p>Statistique</p>
-                    <span class="badge badge-secondary">1</span>
+                <a href="#"> {{-- Assuming a route for statistics, e.g., route('statistiques.index') --}}
+                  <i class="fas fa-chart-line"></i> {{-- Changed icon --}}
+                    <p>Statistiques</p>
+                    {{-- <span class="badge badge-secondary">1</span> --}} {{-- Badge can be dynamic if needed --}}
                 </a>
-
               </li>
 
             {{-- @if (auth()->user()->hasRole('admin')) --}}
+            <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Administration</h4>
+            </li>
               <li class="nav-item">
-                  <a data-bs-toggle="collapse" href="#charts">
-                      <i class="fas fa-user-tie"></i>
-                  <p>Administration</p>
+                  <a data-bs-toggle="collapse" href="#administration-menu"> {{-- Changed ID for clarity --}}
+                      <i class="fas fa-cogs"></i> {{-- Changed icon --}}
+                  <p>Paramètres</p>
                   <span class="caret"></span>
                   </a>
-                  <div class="collapse" id="charts">
-                  <ul class="nav nav-collapse">
-                      <li class="nav-item">
-                          <a data-bs-toggle="collapse" href="#users">
-                              <i class="fas fa-users"></i>
-                              <p>Utilisateurs</p>
-                              <span class="caret"></span>
-                          </a>
-                          <div class="collapse" id="users">
-                              <ul class="nav nav-collapse">
-                              <li>
-                                  <a href="{{ url('/users') }}">
-                                  Liste des Utilisateur</span>
-                                  </a>
-                              </li>
-                              <li>
-                                  <a href="{{ url('/users/create') }}">
-                                  Cree un Utilisateur</span>
-                                  </a>
-                              </li>
-                              </ul>
-                          </div>
-                      </li>
-                      <li class="nav-item">
-                          <a data-bs-toggle="collapse" href="#role">
-                              <i class="fas fa-user-shield"></i>
-                              <p>Roles</p>
-                              <span class="caret"></span>
-                          </a>
-                          <div class="collapse" id="role">
-                              <ul class="nav nav-collapse">
-                              <li>
-                                  <a href="{{ url('/roles') }}">
-                                  <span>List des Roles</span>
-                                  </a>
-                              </li>
-                              <li>
-                                  <a href="{{ url('/roles/create') }}">
-                                  Cree un Roles</span>
-                                  </a>
-                              </li>
-                              </ul>
-                          </div>
-                      </li>
-                      <li class="nav-item">
-                          <a data-bs-toggle="collapse" href="#permission">
-                              <i class="fab fa-audible"></i>
-                              <p>Permission</p>
-                              <span class="caret"></span>
-                          </a>
-                          <div class="collapse" id="permission">
-                              <ul class="nav nav-collapse">
-                              <li>
-                                  <a href="{{ url('/permissions') }}">
-                                  <span>List des Permissions</span>
-                                  </a>
-                              </li>
-                              <li>
-
-                                  <a href="{{ url('/permissions/create') }}">
-                                      <span>Cree une Permitions</span>
+                  <div class="collapse" id="administration-menu">
+                    <ul class="nav nav-collapse">
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#users-submenu"> {{-- Changed ID --}}
+                                <i class="fas fa-users"></i>
+                                <p>Utilisateurs</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="users-submenu">
+                                <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{ route('users.index') }}">
+                                        <p>Liste des Utilisateurs</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('users.create') }}">
+                                        <p>Créer un Utilisateur</p>
+                                    </a>
+                                </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#roles-submenu"> {{-- Changed ID --}}
+                                <i class="fas fa-user-shield"></i>
+                                <p>Rôles</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="roles-submenu">
+                                <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{ route('roles.index') }}">
+                                        <p>Liste des Rôles</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('roles.create') }}">
+                                        <p>Créer un Rôle</p>
+                                    </a>
+                                </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#permissions-submenu"> {{-- Changed ID --}}
+                                <i class="fas fa-key"></i> {{-- Changed icon --}}
+                                <p>Permissions</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="permissions-submenu">
+                                <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{ route('permissions.index') }}">
+                                        <p>Liste des Permissions</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('permissions.create') }}">
+                                        <p>Créer une Permission</p>
                                   </a>
                               </li>
                               </ul>

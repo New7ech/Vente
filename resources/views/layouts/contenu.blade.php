@@ -4,12 +4,12 @@
         class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
       >
         <div>
-          <h3 class="fw-bold mb-3">Accueil</h3>
-          <h6 class="op-7 mb-2">Application de gestion de stock</h6>
+          <h3 class="fw-bold mb-3">Tableau de Bord</h3>
+          <h6 class="op-7 mb-2">Application de gestion de stock et facturation</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-          <a href="#" class="btn btn-label-info btn-round me-2">Facturation</a>
-          <a href="#" class="btn btn-primary btn-round">Ajout article</a>
+          <a href="{{ route('factures.create') }}" class="btn btn-label-info btn-round me-2"><i class="fas fa-file-invoice me-1"></i> Nouvelle Facture</a>
+          <a href="{{ route('articles.create') }}" class="btn btn-primary btn-round"><i class="fas fa-plus me-1"></i> Ajouter un article</a>
         </div>
       </div>
       <div class="row">
@@ -26,8 +26,8 @@
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                      <p class="card-category">Fournisseurs</p>
-                      <h4 class="card-title">{{ number_format($nombreFournisseurs, 0, ',', ' ') }}</h4>
+                      <p class="card-category">Fournisseurs Actifs</p>
+                      <h4 class="card-title">{{ number_format($nombreFournisseurs ?? 0, 0, ',', ' ') }}</h4>
                     </div>
                   </div>
               </div>
@@ -42,13 +42,13 @@
                   <div
                     class="icon-big text-center icon-info bubble-shadow-small"
                   >
-                    <i class="fas fa-user-check"></i>
+                    <i class="fas fa-user-friends"></i> {{-- Changed icon --}}
                   </div>
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                   <div class="numbers">
-                    <p class="card-category">Client</p>
-                    <h4 class="card-title">{{ number_format($nombreClients, 0, ',', ' ') }}</h4>
+                    <p class="card-category">Clients Enregistrés</p>
+                    <h4 class="card-title">{{ number_format($nombreClients ?? 0, 0, ',', ' ') }}</h4>
                   </div>
                 </div>
               </div>
@@ -63,13 +63,13 @@
                   <div
                     class="icon-big text-center icon-success bubble-shadow-small"
                   >
-                    <i class="fas fa-luggage-cart"></i>
+                    <i class="fas fa-dollar-sign"></i> {{-- Changed icon --}}
                   </div>
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                   <div class="numbers">
-                    <p class="card-category">Solde</p>
-                    <h4 class="card-title">$ 1,345</h4>
+                    <p class="card-category">Chiffre d'Affaires (Mois)</p> {{-- Example text --}}
+                    <h4 class="card-title">1 250 000 FCFA</h4> {{-- Example value --}}
                   </div>
                 </div>
               </div>
@@ -84,13 +84,13 @@
                   <div
                     class="icon-big text-center icon-secondary bubble-shadow-small"
                   >
-                    <i class="far fa-check-circle"></i>
+                    <i class="fas fa-boxes"></i> {{-- Changed icon --}}
                   </div>
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                   <div class="numbers">
-                    <p class="card-category">Etat stock</p>
-                    <h4 class="card-title">576</h4>
+                    <p class="card-category">Articles en Stock Faible</p> {{-- Example text --}}
+                    <h4 class="card-title">12</h4> {{-- Example value --}}
                   </div>
                 </div>
               </div>

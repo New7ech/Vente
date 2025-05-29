@@ -30,22 +30,27 @@
                     <textarea name="description" class="form-control">{{ old('description') }}</textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label for="prix" class="form-label">Prix (€)</label>
-                    <input type="number" step="0.01" name="prix" class="form-control" required value="{{ old('prix') }}">
-                </div>
-
-                <div class="mb-3">
-                    <label for="quantite" class="form-label">Quantité</label>
-                    <input type="number" name="quantite" class="form-control" required value="{{ old('quantite', 0) }}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="prix" class="form-label">Prix (FCFA)</label>
+                            <input type="number" step="0.01" name="prix" id="prix" class="form-control" required value="{{ old('prix') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="quantite" class="form-label">Quantité</label>
+                            <input type="number" name="quantite" id="quantite" class="form-control" required value="{{ old('quantite', 0) }}">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="category_id" class="form-label">Catégorie</label>
-                    <select name="category_id" class="form-select">
+                    <select name="category_id" id="category_id" class="form-select">
                         <option value="">-- Choisir --</option>
                         @foreach($categories as $categorie)
-                            <option value="{{ $categorie->name }}" {{ old('category_id') == $categorie->id ? 'selected' : '' }}>
+                            <option value="{{ $categorie->id }}" {{ old('category_id') == $categorie->id ? 'selected' : '' }}>
                                 {{ $categorie->name }}
                             </option>
                         @endforeach
@@ -54,10 +59,10 @@
 
                 <div class="mb-3">
                     <label for="fournisseur_id" class="form-label">Fournisseur</label>
-                    <select name="fournisseur_id" class="form-select">
+                    <select name="fournisseur_id" id="fournisseur_id" class="form-select">
                         <option value="">-- Choisir --</option>
                         @foreach($fournisseurs as $fournisseur)
-                            <option value="{{ $fournisseur->name }}" {{ old('fournisseur_id') == $fournisseur->id ? 'selected' : '' }}>
+                            <option value="{{ $fournisseur->id }}" {{ old('fournisseur_id') == $fournisseur->id ? 'selected' : '' }}>
                                 {{ $fournisseur->name }}
                             </option>
                         @endforeach
@@ -66,17 +71,24 @@
 
                 <div class="mb-3">
                     <label for="emplacement_id" class="form-label">Emplacement</label>
-                    <select name="emplacement_id" class="form-select">
+                    <select name="emplacement_id" id="emplacement_id" class="form-select">
                         <option value="">-- Choisir --</option>
                         @foreach($emplacements as $emplacement)
-                            <option value="{{ $emplacement->name }}" {{ old('emplacement_id') == $emplacement->id ? 'selected' : '' }}>
+                            <option value="{{ $emplacement->id }}" {{ old('emplacement_id') == $emplacement->id ? 'selected' : '' }}>
                                 {{ $emplacement->name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                    <a href="{{ route('articles.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-list"></i> Retour à la liste
+                    </a>
+                </div>
             </form>
         </div>
     </div>

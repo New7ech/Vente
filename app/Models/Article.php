@@ -14,21 +14,21 @@ class Article extends Model
     use HasFactory;
 
     /**
-     * The table associated with the model.
+     * La table associée au modèle.
      *
      * @var string
      */
     protected $table = 'articles';
 
     /**
-     * The primary key associated with the table.
+     * La clé primaire associée à la table.
      *
      * @var string
      */
     protected $primaryKey = 'id';
 
     /**
-     * The attributes that are mass assignable.
+     * Les attributs qui peuvent être assignés en masse.
      *
      * @var array<int, string>
      */
@@ -44,7 +44,7 @@ class Article extends Model
     ];
 
     /**
-     * Get the factures associated with the article.
+     * Obtient les factures associées à l'article.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -56,11 +56,11 @@ class Article extends Model
     }
 
     /**
-     * Scope a query to only include articles matching a search term in name or description.
+     * Filtre la requête pour inclure uniquement les articles correspondant à un terme de recherche dans le nom ou la description.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $searchTerm
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query La requête Eloquent.
+     * @param  string  $searchTerm Le terme de recherche.
+     * @return \Illuminate\Database\Eloquent\Builder La requête Eloquent modifiée.
      */
     public function scopeSearchByText(\Illuminate\Database\Eloquent\Builder $query, string $searchTerm): \Illuminate\Database\Eloquent\Builder
     {
@@ -71,7 +71,7 @@ class Article extends Model
     }
 
     /**
-     * Get the category that owns the article.
+     * Obtient la catégorie à laquelle l'article appartient.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -81,7 +81,7 @@ class Article extends Model
     }
 
     /**
-     * Get the fournisseur that owns the article.
+     * Obtient le fournisseur de l'article.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -91,7 +91,7 @@ class Article extends Model
     }
 
     /**
-     * Get the emplacement where the article is located.
+     * Obtient l'emplacement où l'article est stocké.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -101,7 +101,7 @@ class Article extends Model
     }
 
     /**
-     * Get the user who created the article.
+     * Obtient l'utilisateur qui a créé l'article.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

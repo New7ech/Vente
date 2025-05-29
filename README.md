@@ -1,61 +1,61 @@
-# ProjectName: Inventory and Invoice Management System
+# NomProjet : Système de Gestion de Stock et Facturation
 
-A web application built with Laravel to manage articles, categories, suppliers, invoices, etc.
+Cette application web, développée avec le framework Laravel, est conçue pour faciliter la gestion des articles, des catégories, des fournisseurs, des emplacements de stockage, et la création de factures.
 
-## Installation Instructions
+## Instructions d'installation
 
-1.  Clone the repository:
+1.  Clonez le dépôt :
     ```bash
-    git clone <repository-url>
+    git clone <url-du-depot>
     ```
-2.  Navigate to the project directory:
+2.  Accédez au répertoire du projet :
     ```bash
-    cd <project-directory>
+    cd nom-du-repertoire
     ```
-3.  Copy the environment file:
+3.  Copiez le fichier d'environnement :
     ```bash
     cp .env.example .env
     ```
-4.  Generate the application key:
+4.  Générez la clé d'application :
     ```bash
     php artisan key:generate
     ```
-5.  Install PHP dependencies:
+5.  Installez les dépendances PHP via Composer :
     ```bash
     composer install
     ```
-6.  Install JavaScript dependencies:
+6.  Installez les dépendances JavaScript via npm :
     ```bash
     npm install
     ```
-7.  Build assets:
+7.  Compilez les assets front-end :
     ```bash
     npm run dev
     ```
-    (or `npm run build` for production)
-8.  Run database migrations and seeders:
+    (ou `npm run build` pour la production)
+8.  Configurez vos identifiants de base de données dans le fichier `.env`.
+9.  Exécutez les migrations et les seeders (si applicable) :
     ```bash
     php artisan migrate --seed
     ```
-    (Note: Ensure seeders are configured for initial data.)
-9.  Configure your database credentials in the `.env` file.
+10. (Optionnel) Configurez votre serveur web pour pointer vers le répertoire `public/`.
 
-## Basic Usage
+## Utilisation de base
 
-After installation, users can navigate the system to manage articles, create invoices, track stock, etc.
+Après avoir correctement installé et configuré l'application, vous pouvez y accéder via votre navigateur. Le système permet de gérer différentes entités telles que les articles (stock, prix), les catégories, les fournisseurs, les emplacements, ainsi que de générer et suivre les factures.
 
-## Contributing
+## Contribuer
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Merci d'envisager de contribuer à ce projet ! Le guide de contribution se trouve dans la [documentation Laravel](https://laravel.com/docs/contributions) (à adapter si un guide spécifique au projet est créé).
 
-## Code of Conduct
+## Code de conduite
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Afin de s'assurer que la communauté soit accueillante pour tous, veuillez consulter et respecter le [Code de Conduite](https://laravel.com/docs/contributions#code-of-conduct) (à adapter si un code spécifique au projet est créé).
 
-## Security Vulnerabilities
+## Signalement de vulnérabilités de sécurité
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Si vous découvrez une vulnérabilité de sécurité, veuillez envoyer un e-mail à Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). Toutes les vulnérabilités de sécurité seront traitées rapidement. (Note: Ceci est l'adresse de Laravel, à remplacer par un contact projet si disponible).
 
-## License
+## Licence
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Le framework Laravel est un logiciel open-source sous licence [MIT license](https://opensource.org/licenses/MIT). Ce projet, basé sur Laravel, est également sous licence MIT.
