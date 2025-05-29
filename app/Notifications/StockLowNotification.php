@@ -30,8 +30,7 @@ class StockLowNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
-        return ['database'];
+        return ['database']; // Prioritize database notifications
     }
 
     /**
@@ -39,10 +38,20 @@ class StockLowNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $articleName = $this->article->name;
+        $currentQuantity = $this->article->quantite;
+        $threshold = $this->seuil;
+        // Assuming you have a route to view an article, e.g., 'articles.show'
+        $articleUrl = route('articles.show', $this->article->id);
+
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+                    ->subject("Alerte de stock bas pour l'article : {$articleName}")
+                    ->greeting('Bonjour,')
+                    ->line("Le stock pour l'article \"{$articleName}\" est bas.")
+                    ->line("Quantité actuelle : {$currentQuantity} unités.")
+                    ->line("Le seuil d'alerte était fixé à : {$threshold} unités.")
+                    ->action('Voir l\'article', $articleUrl)
+                    ->line('Veuillez prendre les mesures nécessaires pour réapprovisionner le stock.');
     }
 
     public function toDatabase($notifiable)
