@@ -28,7 +28,7 @@ Route::resource('factures', FactureController::class);
 Route::resource('accueil', AccueilController::class);
 Route::get('/', [App\Http\Controllers\AccueilController::class, 'index'])->name('accueil');
 
-Route::get('/factures/{id}/pdf', [FactureController::class, 'genererPdf'])->name('factures.pdf');
+Route::get('/factures/{facture}/pdf', [FactureController::class, 'genererPdf'])->name('factures.pdf');
 Route::get('/statistiques', [StatistiqueController::class, 'index'])->name('statistiques.index');
 
 // Notification routes

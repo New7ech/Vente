@@ -234,7 +234,7 @@
                     <span class="info-label">Adresse :</span>
                     <span class="info-value">123 Rue de l'Exemple, Ville</span>
                     <span class="info-label">Téléphone :</span>
-                    <span class="info-value">+221 XX XXX XX XX</span>
+                    <span class="info-value">+226 XX XX XX XX</span>
                     <span class="info-label">Email :</span>
                     <span class="info-value">contact@xyz.com</span>
                 </div>

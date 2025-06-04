@@ -201,17 +201,17 @@ class FactureController extends Controller
             $montantTTC = $montantHTTotal * 1.18;
 
             $facture->update([
-                'client_nom' => $validated['client_nom'],
-                'client_prenom' => $validated['client_prenom'],
-                'client_adresse' => $validated['client_adresse'],
-                'client_telephone' => $validated['client_telephone'],
-                'client_email' => $validated['client_email'],
+                'client_nom' => $validated['client_nom'] ?? $facture->client_nom,
+                'client_prenom' => $validated['client_prenom'] ?? $facture->client_prenom,
+                'client_adresse' => $validated['client_adresse'] ?? $facture->client_adresse,
+                'client_telephone' => $validated['client_telephone'] ?? $facture->client_telephone,
+                'client_email' => $validated['client_email'] ?? $facture->client_email,
                 'montant_ht' => $montantHTTotal,
                 'tva' => $tva,
                 'montant_ttc' => $montantTTC,
-                'mode_paiement' => $validated['mode_paiement'],
-                'statut_paiement' => $validated['statut_paiement'],
-                'date_paiement' => $validated['statut_paiement'] === 'payé' ? now() : null,
+                'mode_paiement' => $validated['mode_paiement'] ?? $facture->mode_paiement,
+                'statut_paiement' => $validated['statut_paiement'] ?? $facture->statut_paiement,
+                'date_paiement' => ($validated['statut_paiement'] ?? $facture->statut_paiement) === 'payé' ? now() : null,
             ]);
 
             $facture->articles()->detach();
@@ -253,8 +253,8 @@ class FactureController extends Controller
 
     public function genererPdf(Facture $facture)
     {
-        // Ensure related data is loaded if necessary, e.g., articles on the invoice
-        $facture->load('articles'); // Or whatever relation links facture to its items
+        // Recharge la facture pour avoir les dernières données
+        $facture = Facture::with('articles')->findOrFail($facture->id);
 
         // Prepare details similar to how it might be done in the 'store' or 'show' method if needed by the PDF view
         // For example, if 'details' array was used in the original PDF generation:
