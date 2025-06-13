@@ -32,9 +32,7 @@
                         <dt class="col-sm-4">Adresse :</dt>
                         <dd class="col-sm-8">{{ $user->address ?: 'N/A' }}</dd>
 
-                        <dt class="col-sm-4">Compagnie :</dt>
-                        <dd class="col-sm-8">{{ $user->compagnie->denomination ?? 'N/A' }}</dd>
-
+                        
                         <dt class="col-sm-4">Rôles :</dt>
                         <dd class="col-sm-8">
                             @forelse($user->roles as $role)
@@ -64,7 +62,6 @@
                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">
                     <i class="fas fa-edit"></i> Modifier
                 </a>
-                @if(auth()->user()->hasRole('admin') && auth()->user()->id !== $user->id)
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
                     @csrf
                     @method('DELETE')
@@ -72,7 +69,6 @@
                         <i class="fas fa-trash"></i> Supprimer
                     </button>
                 </form>
-                @endif
                 <a href="{{ route('users.index') }}" class="btn btn-secondary">
                     <i class="fas fa-list"></i> Retour à la liste
                 </a>

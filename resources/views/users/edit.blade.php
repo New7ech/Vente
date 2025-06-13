@@ -78,21 +78,9 @@
                     @endif
                 </div>
 
-                @if (auth()->user()->hasRole('admin') || auth()->user()->id == $user->id) // Admin or self-edit
                 <hr>
                 <h5 class="mb-3">Assignation de Compagnie et Rôles</h5>
-                @if (auth()->user()->hasRole('admin'))
-                    <div class="mb-3">
-                        <label for="compagnie_id" class="form-label">Compagnie</label>
-                        <select id="compagnie_id" name="compagnie_id" class="form-select">
-                            <option value="">-- Aucune --</option>
-                            @foreach ($compagnies as $compagnie)
-                                <option value="{{ $compagnie->id }}" {{ (old('compagnie_id', $user->compagnie_id) == $compagnie->id) ? 'selected' : '' }}>
-                                    {{ $compagnie->denomination }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    
 
                     <div class="mb-3">
                         <label class="form-label">Rôles</label>
@@ -103,8 +91,7 @@
                             </div>
                         @endforeach
                     </div>
-                @endif
-                @endif
+                
 
 
                 <div class="mt-4">

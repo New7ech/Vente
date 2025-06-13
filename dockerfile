@@ -1,51 +1,52 @@
-# Étape 1 : build avec Composer et dépendances
+# === 1) Étape de build (builder) ===
 FROM php:8.3-fpm AS builder
 
-# Installer les dépendances système et PHP (Git, unzip, extensions)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git unzip libzip-dev libonig-dev libxml2-dev libpng-dev libjpeg-dev libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql zip bcmath gd intl \
-    && pecl install redis && docker-php-ext-enable redis \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# 1.1 Dépendances système pour PHP et Composer
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      git unzip curl libzip-dev libonig-dev libxml2-dev \
+      libpng-dev libjpeg-dev libfreetype6-dev \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install pdo_mysql zip bcmath gd intl \
+ && pecl install redis && docker-php-ext-enable redis \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN usermod -u 1000 www-data && \
-    groupmod -g 1000 www-data && \
-    chown -R www-data:www-data /var/www
-
-# Travailler dans /var/www
 WORKDIR /var/www
 
-# Copier le code source de l’application Laravel
-COPY . /var/www
+# 1.2 Copier tout le projet (inclut artisan, config, public, etc.)
+COPY . .
 
-# Installer Composer et dépendances PHP (mode production)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer install --no-dev --optimize-autoloader --no-interaction
+# 1.3 Installer Composer puis dépendances PHP sans exécuter les scripts
+RUN curl -sS https://getcomposer.org/installer \
+      | php -- --install-dir=/usr/local/bin --filename=composer \
+ && composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Étape 2 : image finale PHP-FPM
+# === 2) Étape de production ===
 FROM php:8.3-fpm
 
-# Installer uniquement les libs d’exécution nécessaires
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpng-dev libjpeg-dev libfreetype6-dev libzip-dev libicu-dev libxml2-dev \
-    libonig-dev libpq-dev libcurl4-openssl-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql zip bcmath gd intl opcache \
-    && pecl install redis && docker-php-ext-enable redis \
-    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# 2.1 Extensions d’exécution
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      libpng-dev libjpeg-dev libfreetype6-dev \
+      libzip-dev libicu-dev libxml2-dev libonig-dev \
+      libpq-dev libcurl4-openssl-dev \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install pdo_mysql zip bcmath gd intl opcache \
+ && pecl install redis && docker-php-ext-enable redis \
+ && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copier le code et les extensions depuis l'étape builder
+WORKDIR /var/www
+
+# 2.2 Copier code et extensions depuis builder
+COPY --from=builder /usr/local/bin/composer /usr/local/bin/composer
+COPY --from=builder /var/www /var/www
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
-COPY --from=builder /var/www /var/www
 
-# Permissions et utilisateur non privilégié
-WORKDIR /var/www
+# 2.3 Permissions et utilisateur
 RUN chown -R www-data:www-data /var/www
 USER www-data
 
-# Exposer le port PHP-FPM
 EXPOSE 9000
 CMD ["php-fpm"]
