@@ -236,7 +236,7 @@
                     <span class="info-label">Téléphone :</span>
                     <span class="info-value">+226 XX XX XX XX</span>
                     <span class="info-label">Email :</span>
-                    <span class="info-value">contact@xyz.com</span>
+                    <span class="info-value">contact@gmail.com</span>
                 </div>
             </div>
             <div class="client-info">
