@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('currency', 10)->default('EUR');
 
             $table->unsignedBigInteger('role_id')->nullable();
+            $table->string('role_name')->default('Standard');
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

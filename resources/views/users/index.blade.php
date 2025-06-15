@@ -16,7 +16,6 @@
                             <th>Nom</th>
                             <th>Email</th>
                             <th>Rôles</th>
-                            <th>Compagnie</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
@@ -26,11 +25,8 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    @foreach($user->roles as $role)
-                                        <span class="badge bg-secondary">{{ $role->name }}</span>
-                                    @endforeach
+                                    <span class="badge bg-secondary">{{ $user->role->name }}</span>
                                 </td>
-                                <td>{{ $user->compagnie->denomination ?? 'N/A' }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm" title="Voir">
                                         <i class="fas fa-eye"></i>

@@ -12,7 +12,7 @@
                     @if($user->photo)
                         <img src="{{ asset('storage/' . $user->photo) }}" alt="Photo de profil" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
                     @else
-                        <i class="fas fa-user-circle fa-8x text-secondary"></i>
+                        <img src="{{ asset('images/default-avatar.png') }}" alt="Avatar par défaut" width="100">
                     @endif
                 </div>
                 <div class="col-md-9">
@@ -32,7 +32,7 @@
                         <dt class="col-sm-4">Adresse :</dt>
                         <dd class="col-sm-8">{{ $user->address ?: 'N/A' }}</dd>
 
-                        
+
                         <dt class="col-sm-4">Rôles :</dt>
                         <dd class="col-sm-8">
                             @forelse($user->roles as $role)
