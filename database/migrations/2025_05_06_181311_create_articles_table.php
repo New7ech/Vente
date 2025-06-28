@@ -17,10 +17,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('prix', 8, 2);
             $table->integer('quantite')->default(0);
-            $table->foreignId('category_id')->nullable()->constrained('categories');
-            $table->foreignId('fournisseur_id')->nullable()->constrained('fournisseurs');
-            $table->foreignId('emplacement_id')->nullable()->constrained('emplacements');
-            $table->foreignId('created_by')->nullable()->constrained('users'); // si 'users' est la table des utilisateurs
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
+            $table->foreignId('fournisseur_id')->nullable()->constrained('fournisseurs')->onDelete('cascade');
+            $table->foreignId('emplacement_id')->nullable()->constrained('emplacements')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade'); // si 'users' est la table des utilisateurs
             $table->timestamps();
         });
     }
